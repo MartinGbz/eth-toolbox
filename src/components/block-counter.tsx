@@ -37,9 +37,9 @@ export default function BlockCounter() {
   }
 
   return block?.number ? (
-    <Card className="w-fit h-fit">
+    <Card className="w-[250px] h-fit">
       <CardHeader>
-        <CardTitle className="flex items-center flex gap-x-4">
+        <CardTitle className="flex items-center justify-between	flex gap-x-4">
           <div className="flex items-center flex gap-x-1">
             <Blocks />
             <span className="font-bold"> {block.number.toString()}</span>

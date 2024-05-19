@@ -13,12 +13,13 @@ import { WagmiProvider } from "wagmi";
 import { config, queryClient } from "@/config";
 import { QueryClientProvider } from "@tanstack/react-query";
 import BlockCalculator from "@/components/block-calculator";
+import AddressFormatter from "@/components/address-formatter";
 
 export default function Home() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <div className="w-full h-full p-4">
+        <div className="w-full h-full min-w-[800px] p-4">
           <Card className="w-full h-full">
             <CardHeader>
               <CardTitle>eth toolbox</CardTitle>
@@ -27,6 +28,7 @@ export default function Home() {
             <CardContent className="flex gap-2">
               <BlockCounter />
               <BlockCalculator />
+              <AddressFormatter />
             </CardContent>
             <CardFooter>
               <p className="m-auto">

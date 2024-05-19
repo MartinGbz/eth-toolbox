@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useState } from "react";
 
 interface InputBlockProps {
   blockNumber: 1 | 2;
@@ -27,6 +18,7 @@ export default function InputBlock({
 }: InputBlockProps) {
   return (
     <Input
+      placeholder={"BlockNumber " + blockNumber}
       onKeyDown={(e) => {
         if (/^[eE.\+\-]$/.test(e.key)) e.preventDefault(); // Prevents typing e, E, +, -, .
       }}

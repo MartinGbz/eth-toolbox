@@ -26,9 +26,9 @@ export default function BlockCalculator() {
   const { result, isLoading, computeBlockDiff } = useBlockCalculator();
 
   return (
-    <Card className="w-fit h-fit">
+    <Card className="w-fit h-fit max-w-[500px] min-w-[300px]">
       <CardHeader>
-        <CardTitle>Block diff</CardTitle>
+        <CardTitle>Block calculator</CardTitle>
         <CardDescription>
           {" "}
           Calculate the difference between two blocks{" "}
@@ -51,23 +51,23 @@ export default function BlockCalculator() {
             <div className="flex flex-col">
               {result.blockTimestamp1 && result.blockTimestamp2 && (
                 <div>
-                  <span className="flex items-center gap-x-1">
-                    {"Block 1: "}
+                  <span className="inline-block">
+                    {"Block1: "}
                     <span className="font-bold">
                       {result.blockTimestamp1.toString()}
                     </span>
-                    {"(" +
+                    {" (" +
                       new Date(
                         Number(result.blockTimestamp1 * 1000n)
                       ).toUTCString() +
                       ")"}
                   </span>
-                  <span className="flex items-center gap-x-1">
-                    {"Block 2: "}
+                  <span className="inline-block">
+                    {"Block2: "}
                     <span className="font-bold">
                       {result.blockTimestamp2.toString()}
                     </span>
-                    {"(" +
+                    {" (" +
                       new Date(
                         Number(result.blockTimestamp2 * 1000n)
                       ).toUTCString() +
@@ -93,8 +93,13 @@ export default function BlockCalculator() {
             </div>
           )}
           {isLoading && (
-            <div className="w-full">
-              <LoaderCircle size={36} className="animate-spin m-auto" />
+            <div className="w-full h-[113px] flex items-center justify-center">
+              <LoaderCircle size={36} className="animate-spin" />
+            </div>
+          )}
+          {!result && !isLoading && (
+            <div className="h-[113px] flex items-center justify-center">
+              <p className="w-fit text-gray-400">results here</p>
             </div>
           )}
         </div>
