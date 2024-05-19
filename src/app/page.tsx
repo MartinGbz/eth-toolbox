@@ -30,7 +30,7 @@ export default function Home() {
             </CardContent>
             <CardFooter>
               <p>
-                Made with 💜 by{" "}
+                {"Made with 💜 by "}
                 <a
                   className="font-semibold underline decoration-solid underline-offset-2"
                   href="https://x.com/0xMartinGbz">
