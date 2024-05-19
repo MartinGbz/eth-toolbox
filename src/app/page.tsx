@@ -24,12 +24,12 @@ export default function Home() {
               <CardTitle>eth toolbox</CardTitle>
               <CardDescription>Your developer ethereum toolbox</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex gap-2">
               <BlockCounter />
               <BlockCalculator />
             </CardContent>
             <CardFooter>
-              <p>
+              <p className="m-auto">
                 {"Made with 💜 by "}
                 <a
                   className="font-semibold underline decoration-solid underline-offset-2"
