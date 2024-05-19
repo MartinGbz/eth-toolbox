@@ -12,6 +12,7 @@ import {
 import { WagmiProvider } from "wagmi";
 import { config, queryClient } from "@/config";
 import { QueryClientProvider } from "@tanstack/react-query";
+import BlockCalculator from "@/components/block-calculator";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <BlockCounter />
+              <BlockCalculator />
             </CardContent>
             <CardFooter>
               <p>
