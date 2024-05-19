@@ -1,0 +1,13 @@
+import { QueryClient } from "@tanstack/react-query";
+import { http, createConfig } from "wagmi";
+import { mainnet, sepolia } from "wagmi/chains";
+
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+});
+
+export const queryClient = new QueryClient();
