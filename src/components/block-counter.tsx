@@ -3,15 +3,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useBlock } from "wagmi";
 import { Skeleton } from "./ui/skeleton";
-import { Blocks } from "lucide-react";
+import { Blocks, Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
-import { formatGwei } from "viem";
+import { Block, formatGwei } from "viem";
 import { Progress } from "./ui/progress";
+import { replacerString } from "@/lib/utils";
 
 const decimals = 2;
 
 export default function BlockCounter() {
   const [gasUsage, setGasUsage] = useState<number>();
+  const [displayCopyCheck, setDisplayCopyCheck] = useState<boolean>(false);
 
   const { data: block } = useBlock({
     watch: true,
@@ -28,12 +30,27 @@ export default function BlockCounter() {
     }
   }, [block]);
 
+  function copyBlockToClipboard(block: Block) {
+    navigator.clipboard.writeText(JSON.stringify(block, replacerString));
+    setDisplayCopyCheck(true);
+    setTimeout(() => setDisplayCopyCheck(false), 500);
+  }
+
   return block?.number ? (
     <Card className="w-fit h-fit">
       <CardHeader>
-        <CardTitle className="flex items-center flex gap-x-1">
-          <Blocks />
-          <span className="font-bold"> {block.number.toString()}</span>
+        <CardTitle className="flex items-center flex gap-x-4">
+          <div className="flex items-center flex gap-x-1">
+            <Blocks />
+            <span className="font-bold"> {block.number.toString()}</span>
+          </div>
+          {!displayCopyCheck && (
+            <Copy
+              className="cursor-pointer"
+              onClick={() => copyBlockToClipboard(block)}
+            />
+          )}
+          {displayCopyCheck && <Check />}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-2">
