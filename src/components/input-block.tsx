@@ -1,15 +1,11 @@
 "use client";
 
+import { BlockNumbers } from "@/hook/use-block-calculator";
 import { Input } from "./ui/input";
 
 interface InputBlockProps {
   blockNumber: 1 | 2;
-  setBlockNumbers: React.Dispatch<
-    React.SetStateAction<{
-      block1: bigint | undefined;
-      block2: bigint | undefined;
-    }>
-  >;
+  setBlockNumbers: React.Dispatch<React.SetStateAction<BlockNumbers>>;
 }
 
 export default function InputBlock({
@@ -31,14 +27,18 @@ export default function InputBlock({
         let currentValue;
         try {
           currentValue = BigInt(e.target.value);
-          console.log(currentValue);
         } catch (e) {
-          console.log(e);
+          setBlockNumbers((prev) => {
+            return { ...prev, ["blockNumber" + blockNumber]: undefined };
+          });
         }
         if (currentValue) {
-          console.log(currentValue);
           setBlockNumbers((prev) => {
-            return { ...prev, ["block" + blockNumber]: currentValue };
+            return { ...prev, ["blockNumber" + blockNumber]: currentValue };
+          });
+        } else {
+          setBlockNumbers((prev) => {
+            return { ...prev, ["blockNumber" + blockNumber]: undefined };
           });
         }
       }}

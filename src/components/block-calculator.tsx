@@ -10,19 +10,15 @@ import {
 import { Button } from "./ui/button";
 import { useState } from "react";
 import InputBlock from "./input-block";
-import { useBlockCalculator } from "@/hook/use-block-calculator";
+import { BlockNumbers, useBlockCalculator } from "@/hook/use-block-calculator";
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
-
-type BlockNumbers = {
-  block1: bigint | undefined;
-  block2: bigint | undefined;
-};
+import { Badge } from "./ui/badge";
 
 export default function BlockCalculator() {
   const [blockNumbers, setBlockNumbers] = useState<BlockNumbers>({
-    block1: undefined,
-    block2: undefined,
+    blockNumber1: undefined,
+    blockNumber2: undefined,
   });
   const { result, isLoading, computeBlockDiff } = useBlockCalculator();
 
@@ -43,7 +39,12 @@ export default function BlockCalculator() {
         </div>
         <Button
           onClick={async () => {
-            await computeBlockDiff(blockNumbers);
+            if (blockNumbers.blockNumber1 && blockNumbers.blockNumber2) {
+              await computeBlockDiff({
+                blockNumber1: blockNumbers.blockNumber1,
+                blockNumber2: blockNumbers.blockNumber2,
+              });
+            }
           }}>
           {"Calculate"}
         </Button>
@@ -83,10 +84,15 @@ export default function BlockCalculator() {
                 title="Block difference:"
                 value={result.blockDiff.toString()}
               />
-              <Result
-                title="Time difference:"
-                value={`${result.timeDiff.days}d : ${result.timeDiff.hours}h : ${result.timeDiff.minutes}m : ${result.timeDiff.seconds}s`}
-              />
+              <div className="flex items-center gap-x-1">
+                {"Time difference:"}
+                <span className="font-bold">{`${result.timeDiff.days}d : ${result.timeDiff.hours}h : ${result.timeDiff.minutes}m : ${result.timeDiff.seconds}s`}</span>
+                {result.estimation && (
+                  <Badge variant="outline" className="ml-2">
+                    estimation
+                  </Badge>
+                )}
+              </div>
             </div>
           )}
           {isLoading && (

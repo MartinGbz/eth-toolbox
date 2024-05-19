@@ -1,17 +1,22 @@
 import { config } from "@/config";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { getBlock } from "wagmi/actions";
+
+export type BlockNumbers = {
+  blockNumber1: bigint | undefined;
+  blockNumber2: bigint | undefined;
+};
+
+export type BlockNumbersDefined = {
+  blockNumber1: bigint;
+  blockNumber2: bigint;
+};
 
 type TimeUnits = {
   days: number;
   hours: number;
   minutes: number;
   seconds: number;
-};
-
-type BlockNumbers = {
-  block1: bigint | undefined;
-  block2: bigint | undefined;
 };
 
 type Results = {
@@ -48,49 +53,44 @@ const computeBlockTimeDiffEstimation = async (
   return timeUnits;
 };
 
-const onComputeBlockDiff = async (blockNumbers: BlockNumbers) => {
-  if (blockNumbers.block1 && blockNumbers.block2) {
-    const currentBlock = await getBlock(config);
-    const blockNumber1 = blockNumbers.block1;
-    const blockNumber2 = blockNumbers.block2;
-    let block1;
-    let block2;
-    let timeDiff;
-    let estimation = true;
-    if (
-      currentBlock.number >= blockNumber1 &&
-      currentBlock.number >= blockNumber2
-    ) {
-      estimation = false;
-      block1 = await getBlock(config, {
-        blockNumber: blockNumber1,
-      });
-      block2 = await getBlock(config, {
-        blockNumber: blockNumber2,
-      });
-      timeDiff = await computeTimeDiff(block1.timestamp, block2.timestamp);
-    } else {
-      estimation = true;
-      timeDiff = await computeBlockTimeDiffEstimation(
-        blockNumber1,
-        blockNumber2
-      );
-    }
-    return {
-      blockDiff: blockNumber1 - blockNumber2,
-      timeDiff,
-      estimation,
-      blockTimestamp1: block1?.timestamp,
-      blockTimestamp2: block2?.timestamp,
-    };
+const onComputeBlockDiff = async (blockNumbers: BlockNumbersDefined) => {
+  const currentBlock = await getBlock(config);
+  const blockNumber1 = blockNumbers.blockNumber1;
+  const blockNumber2 = blockNumbers.blockNumber2;
+  let block1;
+  let block2;
+  let timeDiff;
+  let estimation = true;
+  if (
+    currentBlock.number >= blockNumber1 &&
+    currentBlock.number >= blockNumber2
+  ) {
+    estimation = false;
+    block1 = await getBlock(config, {
+      blockNumber: blockNumber1,
+    });
+    block2 = await getBlock(config, {
+      blockNumber: blockNumber2,
+    });
+    timeDiff = await computeTimeDiff(block1.timestamp, block2.timestamp);
+  } else {
+    estimation = true;
+    timeDiff = await computeBlockTimeDiffEstimation(blockNumber1, blockNumber2);
   }
+  return {
+    blockDiff: blockNumber1 - blockNumber2,
+    timeDiff,
+    estimation,
+    blockTimestamp1: block1?.timestamp,
+    blockTimestamp2: block2?.timestamp,
+  };
 };
 
 export const useBlockCalculator = () => {
   const [result, setResult] = useState<Results>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const computeBlockDiff = async (blockNumbers: BlockNumbers) => {
+  const computeBlockDiff = async (blockNumbers: BlockNumbersDefined) => {
     setIsLoading(true);
     const result = await onComputeBlockDiff(blockNumbers);
     setResult(result);
