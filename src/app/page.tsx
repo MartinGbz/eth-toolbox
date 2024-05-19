@@ -25,7 +25,7 @@ export default function Home() {
               <CardTitle>eth toolbox</CardTitle>
               <CardDescription>Your developer ethereum toolbox</CardDescription>
             </CardHeader>
-            <CardContent className="flex gap-2">
+            <CardContent className="flex flex-wrap gap-2">
               <BlockCounter />
               <BlockCalculator />
               <AddressFormatter />

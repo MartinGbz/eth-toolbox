@@ -47,7 +47,7 @@ export default function AddressFormatter() {
   }
 
   return (
-    <Card className="w-fit max-w-[300px] h-fit">
+    <Card className="w-fit h-fit">
       <CardHeader>
         <CardTitle>Address formatter</CardTitle>
         <CardDescription>{"Format an address to checksum"}</CardDescription>
@@ -71,10 +71,7 @@ export default function AddressFormatter() {
           </form>
         </Form>
         {addressChecksumed ? (
-          <Result
-            title="Address:"
-            value={addressChecksumed.slice(0, 15) + "..."}
-          />
+          <Result title="Address:" value={addressChecksumed} />
         ) : (
           <div className="h-[24px] flex items-center justify-center">
             <p className="w-fit text-gray-400">results here</p>

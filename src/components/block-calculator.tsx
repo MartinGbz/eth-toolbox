@@ -12,6 +12,7 @@ import { useState } from "react";
 import InputBlock from "./input-block";
 import { useBlockCalculator } from "@/hook/use-block-calculator";
 import { LoaderCircle } from "lucide-react";
+import Result from "./result";
 
 type BlockNumbers = {
   block1: bigint | undefined;
@@ -78,18 +79,14 @@ export default function BlockCalculator() {
               {result.blockTimestamp1 && result.blockTimestamp2 && (
                 <hr className="my-2" />
               )}
-              <span className="flex items-center gap-x-1">
-                {"Block difference:"}
-                <span className="font-bold">{result.blockDiff.toString()}</span>
-              </span>
-              <span className="flex items-center gap-x-1">
-                {"Time difference:"}
-                <span className="font-bold">
-                  {result.timeDiff.days}d : {result.timeDiff.hours}h :{" "}
-                  {result.timeDiff.minutes}m : {result.timeDiff.seconds}s
-                </span>
-                {result.estimation && "(estimation)"}
-              </span>
+              <Result
+                title="Block difference:"
+                value={result.blockDiff.toString()}
+              />
+              <Result
+                title="Time difference:"
+                value={`${result.timeDiff.days}d : ${result.timeDiff.hours}h : ${result.timeDiff.minutes}m : ${result.timeDiff.seconds}s`}
+              />
             </div>
           )}
           {isLoading && (
