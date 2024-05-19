@@ -80,6 +80,6 @@ export default function BlockCounter() {
       </CardContent>
     </Card>
   ) : (
-    <Skeleton className="w-[260px] h-[206px]" />
+    <Skeleton className="w-[240px] h-[186px]" />
   );
 }
