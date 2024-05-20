@@ -61,7 +61,7 @@ export default function CaseFormatter() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} />
+                    <Input placeholder="Any string" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
