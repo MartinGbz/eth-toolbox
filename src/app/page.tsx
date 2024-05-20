@@ -14,6 +14,7 @@ import { config, queryClient } from "@/config";
 import { QueryClientProvider } from "@tanstack/react-query";
 import BlockCalculator from "@/components/block-calculator";
 import AddressFormatter from "@/components/address-formatter";
+import CaseFormatter from "@/components/case-formatter";
 
 export default function Home() {
   return (
@@ -29,6 +30,7 @@ export default function Home() {
               <BlockCounter />
               <BlockCalculator />
               <AddressFormatter />
+              <CaseFormatter />
             </CardContent>
             <CardFooter>
               <p className="m-auto">
