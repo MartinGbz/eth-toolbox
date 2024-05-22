@@ -1,15 +1,12 @@
 "use client";
 
-import { Skeleton } from "./ui/skeleton";
-import { useEffect, useState } from "react";
-import { Block, formatGwei } from "viem";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { BlockInfo, getGasPrice, getGasUsage } from "./blocks-widget";
+import { BlockInfo } from "./blocks-widget";
 import { Blocks } from "lucide-react";
 
 interface PreviousBlocksProps {

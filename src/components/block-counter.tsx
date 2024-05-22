@@ -1,14 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useBlock } from "wagmi";
-import { Skeleton } from "./ui/skeleton";
 import { Blocks, Check, Copy } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Block, formatGwei } from "viem";
+import { useState } from "react";
+import { Block } from "viem";
 import { Progress } from "./ui/progress";
 import { replacerString } from "@/lib/utils";
-import { BlockInfo, getGasPrice, getGasUsage } from "./blocks-widget";
+import { BlockInfo } from "./blocks-widget";
 
 export interface BlockCounterProps {
   block: Block;
