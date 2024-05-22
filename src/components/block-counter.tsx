@@ -8,23 +8,16 @@ import { useEffect, useState } from "react";
 import { Block, formatGwei } from "viem";
 import { Progress } from "./ui/progress";
 import { replacerString } from "@/lib/utils";
-import { getGasPrice, getGasUsage } from "./blocks-widget";
+import { BlockInfo, getGasPrice, getGasUsage } from "./blocks-widget";
 
 export interface BlockCounterProps {
   block: Block;
-  decimals: number;
+  blockInfo: BlockInfo;
 }
 
-export default function BlockCounter({ block, decimals }: BlockCounterProps) {
+export default function BlockCounter({ block, blockInfo }: BlockCounterProps) {
   const [gasUsage, setGasUsage] = useState<number>();
   const [displayCopyCheck, setDisplayCopyCheck] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (block) {
-      const usage = getGasUsage(block, decimals);
-      setGasUsage(usage);
-    }
-  }, [block, decimals]);
 
   function copyBlockToClipboard(block: Block) {
     navigator.clipboard.writeText(JSON.stringify(block, replacerString));
@@ -32,13 +25,13 @@ export default function BlockCounter({ block, decimals }: BlockCounterProps) {
     setTimeout(() => setDisplayCopyCheck(false), 500);
   }
 
-  return block?.number ? (
+  return (
     <Card className="w-[250px] h-fit">
       <CardHeader>
         <CardTitle className="flex items-center justify-between	flex gap-x-4">
           <div className="flex items-center flex gap-x-1">
             <Blocks />
-            <span className="font-bold"> {block.number.toString()}</span>
+            <span className="font-bold"> {blockInfo.number.toString()}</span>
           </div>
           {!displayCopyCheck && (
             <Copy
@@ -50,13 +43,11 @@ export default function BlockCounter({ block, decimals }: BlockCounterProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-y-2">
-        {block?.baseFeePerGas && (
-          <div>
-            {"⛽️ "}
-            <span className="font-bold">{getGasPrice(block, decimals)}</span>
-            {" Gwei"}
-          </div>
-        )}
+        <div>
+          {"⛽️ "}
+          <span className="font-bold">{blockInfo.gasPrice}</span>
+          {" Gwei"}
+        </div>
         {gasUsage && (
           <div className="flex items-center gap-x-2">
             <div className="flex items-center gap-x-1">
@@ -69,11 +60,9 @@ export default function BlockCounter({ block, decimals }: BlockCounterProps) {
         )}
         <div>
           {"⏳ "}
-          <span className="font-bold">{block.timestamp.toString()}</span>
+          <span className="font-bold">{blockInfo.timestamp.toString()}</span>
         </div>
       </CardContent>
     </Card>
-  ) : (
-    <Skeleton className="w-[240px] h-[186px]" />
   );
 }
