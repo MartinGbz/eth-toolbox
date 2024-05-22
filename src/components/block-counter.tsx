@@ -8,27 +8,23 @@ import { useEffect, useState } from "react";
 import { Block, formatGwei } from "viem";
 import { Progress } from "./ui/progress";
 import { replacerString } from "@/lib/utils";
+import { getGasPrice, getGasUsage } from "./blocks-widget";
 
-const decimals = 2;
+export interface BlockCounterProps {
+  block: Block;
+  decimals: number;
+}
 
-export default function BlockCounter() {
+export default function BlockCounter({ block, decimals }: BlockCounterProps) {
   const [gasUsage, setGasUsage] = useState<number>();
   const [displayCopyCheck, setDisplayCopyCheck] = useState<boolean>(false);
 
-  const { data: block } = useBlock({
-    watch: true,
-  });
-
   useEffect(() => {
     if (block) {
-      const usage = Number(
-        Number((Number(block.gasUsed) / Number(block.gasLimit)) * 100).toFixed(
-          decimals
-        )
-      );
+      const usage = getGasUsage(block, decimals);
       setGasUsage(usage);
     }
-  }, [block]);
+  }, [block, decimals]);
 
   function copyBlockToClipboard(block: Block) {
     navigator.clipboard.writeText(JSON.stringify(block, replacerString));
@@ -57,9 +53,7 @@ export default function BlockCounter() {
         {block?.baseFeePerGas && (
           <div>
             {"⛽️ "}
-            <span className="font-bold">
-              {Number(formatGwei(block?.baseFeePerGas)).toFixed(decimals)}
-            </span>
+            <span className="font-bold">{getGasPrice(block, decimals)}</span>
             {" Gwei"}
           </div>
         )}

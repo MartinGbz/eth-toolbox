@@ -15,6 +15,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import BlockCalculator from "@/components/block-calculator";
 import AddressFormatter from "@/components/address-formatter";
 import CaseFormatter from "@/components/case-formatter";
+import PreviousBlocks from "@/components/previous-blocks";
+import BlocksWidget from "@/components/blocks-widget";
 
 export default function Home() {
   return (
@@ -27,7 +29,7 @@ export default function Home() {
               <CardDescription>Your developer ethereum toolbox</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
-              <BlockCounter />
+              <BlocksWidget />
               <BlockCalculator />
               <AddressFormatter />
               <CaseFormatter />
