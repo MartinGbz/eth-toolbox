@@ -14,7 +14,6 @@ export interface BlockCounterProps {
 }
 
 export default function BlockCounter({ block, blockInfo }: BlockCounterProps) {
-  const [gasUsage, setGasUsage] = useState<number>();
   const [displayCopyCheck, setDisplayCopyCheck] = useState<boolean>(false);
 
   function copyBlockToClipboard(block: Block) {
@@ -46,16 +45,14 @@ export default function BlockCounter({ block, blockInfo }: BlockCounterProps) {
           <span className="font-bold">{blockInfo.gasPrice}</span>
           {" Gwei"}
         </div>
-        {gasUsage && (
-          <div className="flex items-center gap-x-2">
-            <div className="flex items-center gap-x-1">
-              {gasUsage >= 50 ? "🔋" : "🪫"}
-              <span className="font-bold">{gasUsage}</span>
-              {"%"}
-            </div>
-            <Progress value={gasUsage} />
+        <div className="flex items-center gap-x-2">
+          <div className="flex items-center gap-x-1">
+            {blockInfo.gasUsed >= 50 ? "🔋" : "🪫"}
+            <span className="font-bold">{blockInfo.gasUsed}</span>
+            {"%"}
           </div>
-        )}
+          <Progress value={blockInfo.gasUsed} />
+        </div>
         <div>
           {"⏳ "}
           <span className="font-bold">{blockInfo.timestamp.toString()}</span>
