@@ -1,6 +1,5 @@
 "use client";
 
-import BlockCounter from "@/components/block-counter";
 import {
   Card,
   CardContent,
@@ -15,8 +14,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import BlockCalculator from "@/components/block-calculator";
 import AddressFormatter from "@/components/address-formatter";
 import CaseFormatter from "@/components/case-formatter";
-import PreviousBlocks from "@/components/previous-blocks";
 import BlocksWidget from "@/components/blocks-widget";
+import BlockCalculatorSum from "@/components/block-calculator-sum";
 
 export default function Home() {
   return (
@@ -31,6 +30,7 @@ export default function Home() {
             <CardContent className="flex flex-wrap gap-2">
               <BlocksWidget />
               <BlockCalculator />
+              <BlockCalculatorSum />
               <AddressFormatter />
               <CaseFormatter />
             </CardContent>
