@@ -38,7 +38,7 @@ export default function DateToBlockCalculator() {
             }}
           />
         </div>
-        <div>
+        <div className="mt-2">
           {result && !isLoading && (
             <div className="flex flex-col">
               <Result

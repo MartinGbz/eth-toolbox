@@ -17,6 +17,25 @@ type Results = {
   estimation: boolean;
 };
 
+const getBlockNumberFromTimestamp = async (timestamp: bigint) => {
+  const currentBlock = await getBlock(config);
+  if (currentBlock.timestamp >= timestamp) {
+    // get the block at the target time
+    const block = await getBlockNumber(timestamp);
+    return {
+      blockNumber: block,
+      estimation: false,
+    };
+  } else {
+    // estimate the block at the target time
+    const block = await getBlockNumberEstimation(timestamp);
+    return {
+      blockNumber: block,
+      estimation: true,
+    };
+  }
+};
+
 const onComputeSum = async (numbers: NumbersDefined): Promise<Results> => {
   const currentBlock = await getBlock(config);
   const blockNumber = numbers.blockNumber;
@@ -24,21 +43,7 @@ const onComputeSum = async (numbers: NumbersDefined): Promise<Results> => {
     blockNumber: blockNumber,
   });
   const targetTime = block.timestamp + daysToSeconds(numbers.days);
-  if (currentBlock.timestamp >= targetTime) {
-    // get the block at the target time
-    const block = await getBlockNumber(targetTime);
-    return {
-      blockNumber: block,
-      estimation: false,
-    };
-  } else {
-    // estimate the block at the target time
-    const block = await getBlockNumberEstimation(targetTime);
-    return {
-      blockNumber: block,
-      estimation: true,
-    };
-  }
+  return getBlockNumberFromTimestamp(targetTime);
 };
 
 function getOnlyDate(date: Date) {
@@ -52,22 +57,7 @@ function getOnlyDate(date: Date) {
 
 const onDateToBlock = async (date: Date): Promise<Results> => {
   const dateTimestamp = BigInt(getOnlyDate(date).getTime() / 1000);
-  const currentBlock = await getBlock(config);
-  if (currentBlock.timestamp >= dateTimestamp) {
-    // get the block at the target time
-    const block = await getBlockNumber(dateTimestamp);
-    return {
-      blockNumber: block,
-      estimation: false,
-    };
-  } else {
-    // estimate the block at the target time
-    const block = await getBlockNumberEstimation(dateTimestamp);
-    return {
-      blockNumber: block,
-      estimation: true,
-    };
-  }
+  return getBlockNumberFromTimestamp(dateTimestamp);
 };
 
 export const useBlockCalculator = () => {
