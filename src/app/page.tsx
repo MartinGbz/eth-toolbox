@@ -16,6 +16,7 @@ import AddressFormatter from "@/components/address-formatter";
 import CaseFormatter from "@/components/case-formatter";
 import BlocksWidget from "@/components/blocks-widget";
 import BlockCalculatorSum from "@/components/block-calculator-sum";
+import DateToBlockCalculator from "@/components/date-to-block-calculator";
 
 export default function Home() {
   return (
@@ -31,6 +32,7 @@ export default function Home() {
               <BlocksWidget />
               <BlockCalculator />
               <BlockCalculatorSum />
+              <DateToBlockCalculator />
               <AddressFormatter />
               <CaseFormatter />
             </CardContent>

@@ -1,4 +1,5 @@
 import { config } from "@/config";
+import { calculateTimeUnits } from "@/lib/blocks";
 import { useState } from "react";
 import { getBlock } from "wagmi/actions";
 
@@ -28,14 +29,6 @@ type Results = {
 };
 
 const NB_SECONDS_PER_BLOCK = 12n;
-
-const calculateTimeUnits = (time: number) => {
-  const days = Math.floor(time / (24 * 3600));
-  const hours = Math.floor((time % (24 * 3600)) / 3600);
-  const minutes = Math.floor((time % 3600) / 60);
-  const seconds = time % 60;
-  return { days, hours, minutes, seconds };
-};
 
 const computeTimeDiff = async (time1: bigint, time2: bigint) => {
   const timeUnits = calculateTimeUnits(Number(time1 - time2));
