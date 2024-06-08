@@ -19,16 +19,18 @@ interface DatePickerProps {
 
 export function DatePicker({ onChange }: DatePickerProps) {
   const [date, setDate] = React.useState<Date>();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <Popover>
+    <Popover open={isOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
             "w-[280px] justify-start text-left font-normal",
             !date && "text-muted-foreground"
-          )}>
+          )}
+          onClick={() => setIsOpen(true)}>
           <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
@@ -43,6 +45,7 @@ export function DatePicker({ onChange }: DatePickerProps) {
             if (onChange) {
               onChange(date);
             }
+            setIsOpen(false);
           }}
           initialFocus
         />

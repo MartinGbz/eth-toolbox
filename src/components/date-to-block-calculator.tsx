@@ -10,7 +10,7 @@ import {
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
 import { useBlockCalculator } from "@/hook/use-block-calculator";
-import { DatePicker } from "./ui/date-picker";
+import { DatePicker } from "./date-picker";
 
 export type Numbers = {
   blockNumber: bigint | undefined;
