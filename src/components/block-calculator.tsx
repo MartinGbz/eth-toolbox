@@ -10,7 +10,10 @@ import {
 import { Button } from "./ui/button";
 import { useState } from "react";
 import InputBlock from "./input-block";
-import { BlockNumbers, useBlockCalculator } from "@/hook/use-block-calculator";
+import {
+  BlockNumbers,
+  useBlockCalculatorDiff,
+} from "@/hook/use-block-calculator-diff";
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
 import { Badge } from "./ui/badge";
@@ -20,7 +23,7 @@ export default function BlockCalculator() {
     blockNumber1: undefined,
     blockNumber2: undefined,
   });
-  const { result, isLoading, computeBlockDiff } = useBlockCalculator();
+  const { result, isLoading, computeBlockDiff } = useBlockCalculatorDiff();
 
   return (
     <Card className="w-fit h-fit max-w-[500px] min-w-[300px]">

@@ -12,7 +12,7 @@ import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
 import { InputBigint } from "./ui/input-bigint";
-import { useBlockCalculatorSum } from "@/hook/use-block-calculator-sum";
+import { useBlockCalculator } from "@/hook/use-block-calculator";
 
 export type Numbers = {
   blockNumber: bigint | undefined;
@@ -24,7 +24,7 @@ export default function BlockCalculatorSum() {
     blockNumber: undefined,
     days: undefined,
   });
-  const { result, isLoading, computeSum } = useBlockCalculatorSum();
+  const { result, isLoading, computeSum } = useBlockCalculator();
 
   return (
     <Card className="w-fit h-fit max-w-[500px] min-w-[300px]">

@@ -1,97 +1,97 @@
 import { config } from "@/config";
-import { calculateTimeUnits } from "@/lib/blocks";
+import {
+  daysToSeconds,
+  getBlockNumber,
+  getBlockNumberEstimation,
+} from "@/lib/blocks";
 import { useState } from "react";
 import { getBlock } from "wagmi/actions";
 
-export type BlockNumbers = {
-  blockNumber1: bigint | undefined;
-  blockNumber2: bigint | undefined;
-};
-
-export type BlockNumbersDefined = {
-  blockNumber1: bigint;
-  blockNumber2: bigint;
-};
-
-type TimeUnits = {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+export type NumbersDefined = {
+  blockNumber: bigint;
+  days: bigint;
 };
 
 type Results = {
-  blockDiff: bigint;
-  timeDiff: TimeUnits;
+  blockNumber: bigint;
   estimation: boolean;
-  blockTimestamp1?: bigint;
-  blockTimestamp2?: bigint;
 };
 
-const NB_SECONDS_PER_BLOCK = 12n;
-
-const computeTimeDiff = async (time1: bigint, time2: bigint) => {
-  const timeUnits = calculateTimeUnits(Number(time1 - time2));
-  return timeUnits;
-};
-
-const computeBlockTimeDiffEstimation = async (
-  blockNumber1: bigint,
-  blockNumber2: bigint
-) => {
-  const diffBlock = blockNumber1 - blockNumber2;
-  const timeUnits = calculateTimeUnits(
-    Number(diffBlock * NB_SECONDS_PER_BLOCK)
-  );
-  return timeUnits;
-};
-
-const onComputeBlockDiff = async (blockNumbers: BlockNumbersDefined) => {
+const onComputeSum = async (numbers: NumbersDefined): Promise<Results> => {
   const currentBlock = await getBlock(config);
-  const blockNumber1 = blockNumbers.blockNumber1;
-  const blockNumber2 = blockNumbers.blockNumber2;
-  let block1;
-  let block2;
-  let timeDiff;
-  let estimation = true;
-  if (
-    currentBlock.number >= blockNumber1 &&
-    currentBlock.number >= blockNumber2
-  ) {
-    estimation = false;
-    block1 = await getBlock(config, {
-      blockNumber: blockNumber1,
-    });
-    block2 = await getBlock(config, {
-      blockNumber: blockNumber2,
-    });
-    timeDiff = await computeTimeDiff(block1.timestamp, block2.timestamp);
+  const blockNumber = numbers.blockNumber;
+  const block = await getBlock(config, {
+    blockNumber: blockNumber,
+  });
+  const targetTime = block.timestamp + daysToSeconds(numbers.days);
+  if (currentBlock.timestamp >= targetTime) {
+    // get the block at the target time
+    const block = await getBlockNumber(targetTime);
+    return {
+      blockNumber: block,
+      estimation: false,
+    };
   } else {
-    estimation = true;
-    timeDiff = await computeBlockTimeDiffEstimation(blockNumber1, blockNumber2);
+    // estimate the block at the target time
+    const block = await getBlockNumberEstimation(targetTime);
+    return {
+      blockNumber: block,
+      estimation: true,
+    };
   }
-  return {
-    blockDiff: blockNumber1 - blockNumber2,
-    timeDiff,
-    estimation,
-    blockTimestamp1: block1?.timestamp,
-    blockTimestamp2: block2?.timestamp,
-  };
+};
+
+function getOnlyDate(date: Date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  console.log(year, month, day);
+  const utcDate = new Date(Date.UTC(year, month, day));
+  return utcDate;
+}
+
+const onDateToBlock = async (date: Date): Promise<Results> => {
+  const dateTimestamp = BigInt(getOnlyDate(date).getTime() / 1000);
+  const currentBlock = await getBlock(config);
+  if (currentBlock.timestamp >= dateTimestamp) {
+    // get the block at the target time
+    const block = await getBlockNumber(dateTimestamp);
+    return {
+      blockNumber: block,
+      estimation: false,
+    };
+  } else {
+    // estimate the block at the target time
+    const block = await getBlockNumberEstimation(dateTimestamp);
+    return {
+      blockNumber: block,
+      estimation: true,
+    };
+  }
 };
 
 export const useBlockCalculator = () => {
   const [result, setResult] = useState<Results>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const computeBlockDiff = async (blockNumbers: BlockNumbersDefined) => {
+  const computeSum = async (numbers: NumbersDefined) => {
     setIsLoading(true);
-    const result = await onComputeBlockDiff(blockNumbers);
+    const result = await onComputeSum(numbers);
     setResult(result);
     setIsLoading(false);
   };
+
+  const dateToBlock = async (date: Date) => {
+    setIsLoading(true);
+    const result = await onDateToBlock(date);
+    setResult(result);
+    setIsLoading(false);
+  };
+
   return {
     result,
     isLoading,
-    computeBlockDiff,
+    computeSum,
+    dateToBlock,
   };
 };

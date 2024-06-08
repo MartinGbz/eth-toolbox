@@ -7,12 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "./ui/button";
-import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
-import { InputBigint } from "./ui/input-bigint";
-import { useBlockCalculatorSum } from "@/hook/use-block-calculator-sum";
+import { useBlockCalculator } from "@/hook/use-block-calculator";
 import { DatePicker } from "./ui/date-picker";
 
 export type Numbers = {
@@ -21,8 +18,7 @@ export type Numbers = {
 };
 
 export default function DateToBlockCalculator() {
-  // const [date, setDate] = useState<Date | undefined>();
-  const { result, isLoading, dateToBlock } = useBlockCalculatorSum();
+  const { result, isLoading, dateToBlock } = useBlockCalculator();
 
   return (
     <Card className="w-fit h-fit max-w-[500px] min-w-[300px]">
