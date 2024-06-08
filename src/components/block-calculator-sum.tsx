@@ -77,12 +77,12 @@ export default function BlockCalculatorSum() {
             </div>
           )}
           {isLoading && (
-            <div className="w-full h-[113px] flex items-center justify-center">
+            <div className="w-full h-[24px] flex items-center justify-center">
               <LoaderCircle size={36} className="animate-spin" />
             </div>
           )}
           {!result && !isLoading && (
-            <div className="h-[113px] flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <p className="w-fit text-gray-400">results here</p>
             </div>
           )}

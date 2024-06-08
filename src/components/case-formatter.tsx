@@ -82,7 +82,7 @@ export default function CaseFormatter() {
         {stringFormatted ? (
           <Result title="Result:" value={stringFormatted} />
         ) : (
-          <div className="h-[24px] flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <p className="w-fit text-gray-400">results here</p>
           </div>
         )}
