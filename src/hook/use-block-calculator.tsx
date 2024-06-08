@@ -46,17 +46,19 @@ const onComputeSum = async (numbers: NumbersDefined): Promise<Results> => {
   return getBlockNumberFromTimestamp(targetTime);
 };
 
-function getOnlyDate(date: Date) {
+function convertToUTC(date: Date) {
   const year = date.getFullYear();
   const month = date.getMonth();
   const day = date.getDate();
-  console.log(year, month, day);
-  const utcDate = new Date(Date.UTC(year, month, day));
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds));
   return utcDate;
 }
 
 const onDateToBlock = async (date: Date): Promise<Results> => {
-  const dateTimestamp = BigInt(getOnlyDate(date).getTime() / 1000);
+  const dateTimestamp = BigInt(convertToUTC(date).getTime() / 1000);
   return getBlockNumberFromTimestamp(dateTimestamp);
 };
 

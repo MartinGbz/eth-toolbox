@@ -368,7 +368,6 @@ const DateTimePicker = React.forwardRef<
     }
   }, [state.value, onJsDateChange]);
 
-  console.log("state", state);
   return (
     <div
       {...groupProps}

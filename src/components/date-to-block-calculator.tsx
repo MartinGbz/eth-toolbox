@@ -10,10 +10,9 @@ import {
 import { LoaderCircle } from "lucide-react";
 import Result from "./result";
 import { useBlockCalculator } from "@/hook/use-block-calculator";
-import { DatePicker } from "./date-picker";
 import { DateTimePicker } from "./date-time-picker";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export type Numbers = {
   blockNumber: bigint | undefined;
@@ -22,7 +21,7 @@ export type Numbers = {
 
 export default function DateToBlockCalculator() {
   const { result, isLoading, dateToBlock } = useBlockCalculator();
-  const [date, setDate] = useState<Date | undefined>();
+  const date = useRef<Date | undefined>(); // need to use ref instead of state to avoid infinite re-render loop on DateTimePicker
 
   return (
     <Card className="w-fit h-fit max-w-[500px] min-w-[300px]">
@@ -37,17 +36,15 @@ export default function DateToBlockCalculator() {
           <DateTimePicker
             granularity="second"
             hourCycle={12}
-            onJsDateChange={(date) => {
-              // setDate(date);
-              console.log(date);
+            onJsDateChange={(newDate) => {
+              date.current = newDate;
             }}
           />
-          {/* <DatePicker /> */}
         </div>
         <Button
           onClick={async () => {
-            if (date) {
-              dateToBlock(date);
+            if (date.current) {
+              dateToBlock(date.current);
             }
           }}>
           {"Calculate"}
