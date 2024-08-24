@@ -19,6 +19,7 @@ import BlockCalculatorSum from "@/components/block-calculator-sum";
 import DateToBlockCalculator from "@/components/date-to-block-calculator";
 import BlockInfos from "@/components/block-info";
 import ChainSelector from "@/components/chain-selector";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function Home() {
   return (
@@ -33,7 +34,10 @@ export default function Home() {
                   Your developer ethereum toolbox
                 </CardDescription>
               </div>
-              <ChainSelector />
+              <div className="flex gap-x-2">
+                <ChainSelector />
+                <ThemeToggle />
+              </div>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
               <BlocksWidget />
