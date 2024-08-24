@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Blocks, Check, Copy } from "lucide-react";
+import { Box, Check, Copy } from "lucide-react";
 import { useState } from "react";
 import { Block } from "viem";
 import { Progress } from "./ui/progress";
@@ -27,7 +27,7 @@ export default function BlockCounter({ block, blockInfo }: BlockCounterProps) {
       <CardHeader>
         <CardTitle className="flex items-center justify-between	flex gap-x-4">
           <div className="flex items-center flex gap-x-1">
-            <Blocks />
+            <Box />
             <span className="font-bold"> {blockInfo.number.toString()}</span>
           </div>
           {!displayCopyCheck && (

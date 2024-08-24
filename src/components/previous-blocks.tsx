@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BlockInfo } from "./blocks-widget";
-import { Blocks } from "lucide-react";
+import { Box } from "lucide-react";
 
 interface PreviousBlocksProps {
   blocksInfos: BlockInfo[];
@@ -28,7 +28,7 @@ export default function PreviousBlocks({
             <AccordionItem key={index} value={`item-${index}`}>
               <AccordionTrigger>
                 <div className="flex items-center flex gap-x-1">
-                  <Blocks />
+                  <Box />
                   {block.number.toString()}
                 </div>
               </AccordionTrigger>
