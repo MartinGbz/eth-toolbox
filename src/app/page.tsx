@@ -17,6 +17,7 @@ import CaseFormatter from "@/components/case-formatter";
 import BlocksWidget from "@/components/blocks-widget";
 import BlockCalculatorSum from "@/components/block-calculator-sum";
 import DateToBlockCalculator from "@/components/date-to-block-calculator";
+import BlockInfos from "@/components/block-info";
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
               <DateToBlockCalculator />
               <AddressFormatter />
               <CaseFormatter />
+              <BlockInfos />
             </CardContent>
             <CardFooter>
               <p className="m-auto">
