@@ -11,30 +11,63 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getChainId } from "wagmi/actions";
+import { config } from "@/config";
+import { useHydrated } from "@/hook/use-hydrated";
+
+export const getTheme = (
+  theme: string | undefined,
+  systemTheme: "light" | "dark" | undefined
+) => {
+  const defaultTheme = "light";
+
+  let themeMode = theme ? theme.split("-")[0] : defaultTheme;
+  if (themeMode === "system") {
+    themeMode = systemTheme || defaultTheme;
+  }
+
+  const chainId = getChainId(config);
+
+  return `${themeMode}-${chainId}`;
+};
+
+const getThemeMode = (theme: string | undefined) => {
+  return theme ? theme.split("-")[0] : undefined;
+};
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, systemTheme, setTheme } = useTheme();
+
+  const hydrated = useHydrated();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    hydrated && (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="icon">
+            {getThemeMode(theme) === "light" ? (
+              <Sun className="h-[1.2rem] w-[1.2rem]" />
+            ) : (
+              <Moon className=" h-[1.2rem] w-[1.2rem]" />
+            )}
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => setTheme(getTheme("light", systemTheme))}>
+            Light
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setTheme(getTheme("dark", systemTheme))}>
+            Dark
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setTheme(getTheme("system", systemTheme))}>
+            System
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
   );
 }
