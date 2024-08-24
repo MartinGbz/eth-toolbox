@@ -18,6 +18,7 @@ import BlocksWidget from "@/components/blocks-widget";
 import BlockCalculatorSum from "@/components/block-calculator-sum";
 import DateToBlockCalculator from "@/components/date-to-block-calculator";
 import BlockInfos from "@/components/block-info";
+import ChainSelector from "@/components/chain-selector";
 
 export default function Home() {
   return (
@@ -25,9 +26,14 @@ export default function Home() {
       <QueryClientProvider client={queryClient}>
         <div className="w-full h-full min-w-[800px] p-4">
           <Card className="w-full h-full">
-            <CardHeader>
-              <CardTitle>eth toolbox</CardTitle>
-              <CardDescription>Your developer ethereum toolbox</CardDescription>
+            <CardHeader className="flex flex-row justify-between">
+              <div>
+                <CardTitle>eth toolbox</CardTitle>
+                <CardDescription>
+                  Your developer ethereum toolbox
+                </CardDescription>
+              </div>
+              <ChainSelector />
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2">
               <BlocksWidget />
