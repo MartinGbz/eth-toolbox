@@ -29,9 +29,9 @@ export default function Home() {
           <Card className="w-full h-full">
             <CardHeader className="flex flex-row justify-between">
               <div>
-                <CardTitle>eth toolbox</CardTitle>
+                <CardTitle>Eth toolbox</CardTitle>
                 <CardDescription>
-                  Your developer ethereum toolbox
+                  Your ethereum developer toolbox
                 </CardDescription>
               </div>
               <div className="flex gap-x-2">

@@ -123,3 +123,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: "satoshi";
+  font-style: regular;
+  font-weight: 700;
+  src: url("/fonts/Satoshi-Variable.ttf") format("truetype");
+}
